@@ -9,11 +9,14 @@ const DOM = {
   app: document.getElementById('app'),
 };
 
+const STATE = {
+  mouse: 'up',
+  current: { x: 0, y: 0 },
+  last: { x: 0, y: 0 },
+};
+
 export default () => {
-  const STATE = parameters({
-    mouse: 'up',
-    current: { x: 0, y: 0 },
-    last: { x: 0, y: 0 },
+  const PARAMS = parameters({
     colors: ['black'],
     text: 'the world',
     background: 'white',
@@ -23,10 +26,10 @@ export default () => {
     gridsize: 16,
   });
 
-  STATE.text = STATE.text.split('');
+  PARAMS.text = PARAMS.text.split('');
 
   const round = n =>
-    Math.round(n / STATE.gridsize) * STATE.gridsize;
+    Math.round(n / PARAMS.gridsize) * PARAMS.gridsize;
 
   const identity = n => n;
 
@@ -39,31 +42,31 @@ export default () => {
   window.addEventListener('mousemove', e => {
     if (STATE.mouse === 'up') return;
 
-    STATE.current.x = (STATE.snap ? round : identity)(e.clientX);
-    STATE.current.y = (STATE.snap ? round : identity)(e.clientY);
+    STATE.current.x = (PARAMS.snap ? round : identity)(e.clientX);
+    STATE.current.y = (PARAMS.snap ? round : identity)(e.clientY);
   });
 
-  document.body.style.backgroundColor = STATE.background;
+  document.body.style.backgroundColor = PARAMS.background;
 
-  if (STATE.image) {
-    document.body.style.backgroundImage = `url(${STATE.image})`;
+  if (PARAMS.image) {
+    document.body.style.backgroundImage = `url(${PARAMS.image})`;
   }
 
-  draw(STATE.fps, () => {
+  draw(PARAMS.fps, () => {
     if (STATE.last.x === STATE.current.x && STATE.last.y === STATE.current.y) return;
 
-    STATE.text = step(STATE.text);
+    PARAMS.text = step(PARAMS.text);
 
     STATE.last.x = STATE.current.x;
     STATE.last.y = STATE.current.y;
 
-    STATE.color = last(step(STATE.colors));
+    PARAMS.color = last(step(PARAMS.colors));
 
     DOM.app.innerHTML += `
       <div
         class='point'
-        style='top: ${STATE.current.y}px; left: ${STATE.current.x}px; color: ${STATE.color}'>
-          ${last(STATE.text)}
+        style='top: ${STATE.current.y}px; left: ${STATE.current.x}px; color: ${PARAMS.color}'>
+          ${last(PARAMS.text)}
         </div>
     `;
   })();
