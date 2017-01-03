@@ -20,9 +20,8 @@ body {
   background-color: white;
   color: black;
   -webkit-font-smoothing: antialiased;
-  font-family: sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: 18px;
-  /*background-image: url('https://atlas-production.s3.amazonaws.com/282/766e391a9664023b1e3d3c5a0a6bb15678d93b142178918f109dcbfef8674ff4.jpg');*/
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;

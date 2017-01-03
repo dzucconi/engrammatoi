@@ -19,9 +19,16 @@ export default () => {
     background: 'white',
     image: null,
     fps: 30,
+    snap: false,
+    gridsize: 16,
   });
 
   STATE.text = STATE.text.split('');
+
+  const round = n =>
+    Math.round(n / STATE.gridsize) * STATE.gridsize;
+
+  const identity = n => n;
 
   window.addEventListener('mousedown', () =>
     STATE.mouse = 'down');
@@ -32,8 +39,8 @@ export default () => {
   window.addEventListener('mousemove', e => {
     if (STATE.mouse === 'up') return;
 
-    STATE.current.x = e.clientX;
-    STATE.current.y = e.clientY;
+    STATE.current.x = (STATE.snap ? round : identity)(e.clientX);
+    STATE.current.y = (STATE.snap ? round : identity)(e.clientY);
   });
 
   document.body.style.backgroundColor = STATE.background;
